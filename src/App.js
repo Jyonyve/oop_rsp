@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import { choice, rcp } from "./aggregation/choice";
 import "./App.css";
 import Box from "./component/Box";
-import judgement from "./component/judgement";
+import { Computer } from "./component/computer";
+import User from "./component/user";
 
 // 1. 박스 2개 (타이틀,사진, 결과)
 //2. 가위 바위 보 버튼이 있다
@@ -12,19 +14,23 @@ import judgement from "./component/judgement";
 //6. 승패결과에따라 테두리 색이 바뀐다 (이기면-초록, 지면-빨강 비기면-검은색)
 
 
-function App() { 
+function App(props) { 
+
+  const play = (button) => {
+    props.computer.setComSelect();
+    props.user.setUserSelect(button);
+  }
 
   return (
     <div>
       <div className="main">
-
-        <Box title="You" item={userSelect} result={result} />
-        
+        <User />
+        <Computer />
       </div>
       <div className="main">
-        <button onClick={() => play("scissors")}>가위</button>
-        <button onClick={() => play("rock")}>바위</button>
-        <button onClick={() => play("paper")}>보</button>
+        <button onClick={() => play(rcp.scissors)}>가위</button>
+        <button onClick={() => play(rcp.rock)}>바위</button>
+        <button onClick={() => play(rcp.paper)}>보</button>
       </div>
     </div>
   );
