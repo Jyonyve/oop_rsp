@@ -1,10 +1,11 @@
 import { rcp } from "../aggregation/choice";
 import Box from "./Box";
 import judgement from "./judgement";
-import React, {forwardRef, useImperativeHandle, useState} from "react";
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from "react";
+import PlayMap from "../store/playMap";
 
 
-const Computer = forwardRef((props:any, ref:any) => {
+const Computer = (props:any) => {
 
     const title : string = 'Computer';
     const [comSelect, setComSelect] = useState("");
@@ -16,20 +17,20 @@ const Computer = forwardRef((props:any, ref:any) => {
         return rcp[randomIndex];
     };
 
-    useImperativeHandle(ref, () => ({
-        getComSelect(){
-            setComSelect(randomChoice());
-            return comSelect;
-        },
-
-        getComResult (userSelect :string) {
-            setComResult(judgement(comSelect, userSelect)!);
-            return comResult;
-        }
-    }));
+    useEffect(() => {
+        setComSelect(randomChoice());
+        const playMap = PlayMap.getInstance();
+        playMap.data.set('comSelect', comSelect);
+    })
+        
+    }
+    function getComResult (userSelect :string) {
+        setComResult(judgement(comSelect, userSelect)!);
+        return comResult;
+    }
     
     return(
         <Box title={title} item={comSelect} result={comResult} />
     );
-});
+};
 export default Computer;

@@ -3,6 +3,7 @@ import { rcp } from "./aggregation/choice";
 import "./App.css";
 import Computer from "./component/Computer";
 import User from "./component/User";
+import PlayMap from "./store/playMap";
 
 // 1. 박스 2개 (타이틀,사진, 결과)
 //2. 가위 바위 보 버튼이 있다
@@ -14,15 +15,13 @@ import User from "./component/User";
 
 export const App = () => { 
   const user = new User();
-
-  const computerRef = useRef(Computer);
-  const computer = <Computer ref = {computerRef} />
+  const playMap = PlayMap.getInstance();
 
     const play = (str) => { 
         const userSelect = user.setUserSelect(str);
-        const comSelect = computerRef.current.getComSelect();
+        const comSelect = playMap.data.get('comSelect');
         user.setUserResult(comSelect);
-        computerRef.current.getComResult(userSelect);
+        getComResult(userSelect);
    }
 
   return (
