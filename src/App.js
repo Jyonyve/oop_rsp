@@ -1,8 +1,8 @@
-import React from "react";
-import {choice, rcp } from "./aggregation/choice";
+import React, { useRef } from "react";
+import { rcp } from "./aggregation/choice";
 import "./App.css";
-import { Computer } from "./component/computer";
-import User from "./component/user";
+import Computer from "./component/Computer";
+import User from "./component/User";
 
 // 1. 박스 2개 (타이틀,사진, 결과)
 //2. 가위 바위 보 버튼이 있다
@@ -12,18 +12,19 @@ import User from "./component/user";
 //6. 승패결과에따라 테두리 색이 바뀐다 (이기면-초록, 지면-빨강 비기면-검은색)
 
 
-function App(props) { 
+export const App = () => { 
+  const user = new User();
 
-  const {user, computer} = props;
+  const computerRef = useRef(Computer);
+  const computer = <Computer ref = {computerRef} />
 
-  const play = (props, str) => { 
-    computer.getComSelect();
-    user.setUserSelect(str);
+    const play = (str) => { 
+        const userSelect = user.setUserSelect(str);
+        const comSelect = computerRef.current.getComSelect();
+        user.setUserResult(comSelect);
+        computerRef.current.getComResult(userSelect);
+   }
 
-    computer.getComResult(props);
-    user.setUserResult(props);
-
-  }
   return (
     <div>
       <div className="main">
@@ -31,12 +32,11 @@ function App(props) {
         <Computer />
       </div>
       <div className="main">
-        <button onClick={() => play(props, rcp.scissors)}>가위</button>
-        <button onClick={() => play(props, rcp.rock)}>바위</button>
-        <button onClick={() => play(props, rcp.paper)}>보</button>
+        <button onClick={() => play(rcp.scissors)}>가위</button>
+        <button onClick={() => play(rcp.rock)}>바위</button>
+        <button onClick={() => play(rcp.paper)}>보</button>
       </div>
     </div>
   );
 }
 
-export default App;

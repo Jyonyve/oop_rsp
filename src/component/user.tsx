@@ -1,16 +1,12 @@
-import autobind from "autobind-decorator";
-import { observable } from "mobx";
-import { action, makeObservable } from "mobx";
-import  React from "react";
-import { Component } from "react";
-import Choice, { choice } from "../aggregation/choice";
+import { makeObservable, action, computed, observable } from "mobx";
+import React, { Component } from "react";
+import Choice, { choice, rcp } from "../aggregation/choice";
 import Box from "./Box";
 import judgement from "./judgement";
 
-@autobind
 class User extends Component{
 
-    constructor(props : any){
+    constructor(props:any){
         super(props);
         makeObservable(this);
     }
@@ -27,26 +23,32 @@ class User extends Component{
         return this._title;
     }
 
+    @computed
     get userSelect(){
-        return this._userResult;
+        return this._userSelect;
     }
 
+    @computed
     get userResult(){
         return this._userResult;
     }
 
     @action
-    setUserSelect(props :any){
-        let {rcp_choice, rcp_value} = choice(props)
+    setUserSelect = (str :rcp) => {
+        let {rcp_choice, rcp_value} = choice(str)
         
         this._userSelect =  
         { ...this._userSelect,
-            [rcp_choice]: rcp_value};
+            [rcp_choice]: rcp_value
+        };
+
+        return this.userSelect;
     }
 
     @action
-    setUserResult(props : any){
-        this._userResult = judgement(this.userSelect, props.computer.comSelect)!
+    setUserResult = (comSelect : string) => {
+        this._userResult = judgement(this.userSelect, comSelect)!;
+        return this.userResult;
     }
 
 
@@ -54,8 +56,8 @@ class User extends Component{
     render(){
         return(
             <Box title={this.title} item={this.userSelect} result={this.userResult} />
-        );
+            );
     }
 
-}
+};
 export default User;

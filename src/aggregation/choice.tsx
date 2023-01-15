@@ -1,5 +1,5 @@
 import React from "react";
-import User from "../component/user";
+import User from "../component/User";
 
 export enum rcp {
     rock,

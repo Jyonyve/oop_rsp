@@ -1,11 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
 import { rcp } from "../aggregation/choice";
 import Box from "./Box";
 import judgement from "./judgement";
+import React, {forwardRef, useImperativeHandle, useState} from "react";
 
 
-export const computer = (props:any) => {
+const Computer = forwardRef((props:any, ref:any) => {
 
     const title : string = 'Computer';
     const [comSelect, setComSelect] = useState("");
@@ -17,14 +16,20 @@ export const computer = (props:any) => {
         return rcp[randomIndex];
     };
 
-    const getComSelect = () => {
-        setComSelect(randomChoice());
-    }
-    const getComResult = (props:any) =>{
-        setComResult(judgement(comSelect, props.user.userSelect)!);
-    }
+    useImperativeHandle(ref, () => ({
+        getComSelect(){
+            setComSelect(randomChoice());
+            return comSelect;
+        },
+
+        getComResult (userSelect :string) {
+            setComResult(judgement(comSelect, userSelect)!);
+            return comResult;
+        }
+    }));
     
     return(
         <Box title={title} item={comSelect} result={comResult} />
     );
-}
+});
+export default Computer;
