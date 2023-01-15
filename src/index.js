@@ -5,15 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import User from './component/user';
 import { computer } from './component/computer';
+import { choice } from './aggregation/choice';
 
 ReactDOM.render(
-  <React>
-    <App user = {User} computer = {computer}/>
-  </React>,
+  <React.StrictMode>
+    <App choice = {choice} user = {User} computer = {computer} />
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

@@ -1,3 +1,6 @@
+import React from "react";
+import User from "../component/user";
+
 export enum rcp {
     rock,
     scissors,
@@ -9,12 +12,12 @@ export default interface Choice {
 };
 
 
-export const choice = (props:any) => {
+export const choice = (props:rcp) => {
 
-    let rcp_user_choice : rcp = props;
+    let rcp_choice : rcp = props;
     let rcp_value : Choice = {};
 
-    switch(rcp_user_choice){
+    switch(rcp_choice){
         case rcp.rock:
             rcp_value['name'] = 'Rock';
             rcp_value['img'] = "https://media.istockphoto.com/photos/stone-pebble-gray-picture-id1288973456?b=1&k=20&m=1288973456&s=170667a&w=0&h=GBGgp4yrZv4ooDBws8yHF24sJ3rkEpObYsBWpVNKFT8=";
@@ -32,6 +35,6 @@ export const choice = (props:any) => {
     }
 
     return (
-        {rcp_user_choice, rcp_value}
+        {rcp_choice, rcp_value}
     );
 }

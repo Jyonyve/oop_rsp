@@ -1,7 +1,8 @@
 import autobind from "autobind-decorator";
 import { observable } from "mobx";
-import { action, makeObservable } from "mobx/dist/internal";
-import React, { Component } from "react";
+import { action, makeObservable } from "mobx";
+import  React from "react";
+import { Component } from "react";
 import Choice, { choice } from "../aggregation/choice";
 import Box from "./Box";
 import judgement from "./judgement";
@@ -36,17 +37,19 @@ class User extends Component{
 
     @action
     setUserSelect(props :any){
-        let {rcp_user_choice, rcp_value} = choice(props)
+        let {rcp_choice, rcp_value} = choice(props)
         
         this._userSelect =  
         { ...this._userSelect,
-            [rcp_user_choice]: rcp_value};
+            [rcp_choice]: rcp_value};
     }
 
     @action
     setUserResult(props : any){
-        this._userResult = judgement(this.setUserSelect(this.props), props.computer.comSelect)!
+        this._userResult = judgement(this.userSelect, props.computer.comSelect)!
     }
+
+
 
     render(){
         return(

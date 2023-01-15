@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
+import { rcp } from "../aggregation/choice";
 import Box from "./Box";
 import judgement from "./judgement";
+
 
 export const computer = (props:any) => {
 
@@ -9,15 +12,18 @@ export const computer = (props:any) => {
     const [comResult, setComResult] = useState("");
 
     const randomChoice = () => {
-        const rcp : string[] = ['rock', 'scissor', 'paper'];
-        let randomIndex : number = Math.floor(Math.random() * rcp.length);
+        const rcpArr : (string|rcp)[] = Object.values(rcp);
+        let randomIndex : number = Math.floor(Math.random() * rcpArr.length);
         return rcp[randomIndex];
     };
 
-    setComSelect(randomChoice());
-    setComResult(judgement(comSelect, props.userSelect)!);
-
-
+    const getComSelect = () => {
+        setComSelect(randomChoice());
+    }
+    const getComResult = (props:any) =>{
+        setComResult(judgement(comSelect, props.user.userSelect)!);
+    }
+    
     return(
         <Box title={title} item={comSelect} result={comResult} />
     );

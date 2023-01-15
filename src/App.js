@@ -1,8 +1,6 @@
 import React from "react";
-import { useState } from "react";
-import { choice, rcp } from "./aggregation/choice";
+import {choice, rcp } from "./aggregation/choice";
 import "./App.css";
-import Box from "./component/Box";
 import { Computer } from "./component/computer";
 import User from "./component/user";
 
@@ -16,11 +14,16 @@ import User from "./component/user";
 
 function App(props) { 
 
-  const play = (button) => {
-    props.computer.setComSelect();
-    props.user.setUserSelect(button);
-  }
+  const {user, computer} = props;
 
+  const play = (props, str) => { 
+    computer.getComSelect();
+    user.setUserSelect(str);
+
+    computer.getComResult(props);
+    user.setUserResult(props);
+
+  }
   return (
     <div>
       <div className="main">
@@ -28,9 +31,9 @@ function App(props) {
         <Computer />
       </div>
       <div className="main">
-        <button onClick={() => play(rcp.scissors)}>가위</button>
-        <button onClick={() => play(rcp.rock)}>바위</button>
-        <button onClick={() => play(rcp.paper)}>보</button>
+        <button onClick={() => play(props, rcp.scissors)}>가위</button>
+        <button onClick={() => play(props, rcp.rock)}>바위</button>
+        <button onClick={() => play(props, rcp.paper)}>보</button>
       </div>
     </div>
   );
