@@ -7,7 +7,7 @@ const Box = (props) => {
   return (
     <div className={`box ${result}`}>
       <h1>{title}</h1>
-      <h2 data-testid="item-name">{item && item.name}</h2>
+      <h2 data-testid="item-name">{item}</h2>
       <img className="item-img" src={item && item.img} />
       <h2>{result}</h2>
     </div>

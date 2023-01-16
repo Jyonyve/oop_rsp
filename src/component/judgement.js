@@ -2,8 +2,8 @@ const judgement = (master, slave) => {
   //승패의 결과 반환하는 조건문 =>
   //master와 slave는 [key: [value1, value2]] 모양의 값이다. (예: rock : {name: 'Rock', img: 'img~~'})
 
-  console.log(JSON.stringify(master));
-  console.log(JSON.stringify(slave));
+  console.log(JSON.stringify(Object.keys(master)));
+  console.log(JSON.stringify(Object.keys(slave)));
   if (Object.keys(master) === Object.keys(slave)) {
     return "tie";
   } else if (Object.keys(master) === "rock") {

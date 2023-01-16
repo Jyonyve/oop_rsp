@@ -16,20 +16,31 @@ function Computer (props:any){
     const randomChoice = () => { //컴퓨터가 랜덤하게 가위 바위 보를 고른다.
         const rcpArr : string[] = Object.keys(rcp).filter( value => isNaN(Number(value)));
         let randomIndex : number = Math.floor(Math.random() * rcpArr.length);
-        const comRcp = choice(randomIndex);
+        let comRcp = choice(randomIndex);
         return  comRcp;
     };
 
     useEffect(() => { //한 판이 끝나면 컴퓨터가 새로운 가위바위보를 마음에 품고, 새로운 컴퓨터의 선택을 저장한다.
-        setComSelect(randomChoice()),
-        playMap!.set('comSelect', comSelect);
+        let comRcp = randomChoice();
+        let insertCom : {} = {};
+        insertCom = {
+            ...insertCom,
+            [comRcp.rcp_choice] : comRcp.rcp_value
+        }
+        setComSelect(insertCom),
+        playMap!.set('comSelect', insertCom);
+        console.log(`getComputerSelected ${JSON.stringify(playMap.get('comSelect'))}`);
     }, [comResult] );
+
+    const getCR = (props: any) => {
+        setComResult(props);
+        return comResult;
+    };
 
     return(
         <>
         <div>
-            <GetComResult comResult = {comResult} setComResult = {setComResult}/>
-            <Box title={title} item={comSelect} result={comResult} />
+            <GetComResult setComResult = {getCR} title={title}  />
         </div>
         </>
     );
@@ -42,13 +53,16 @@ export const GetComResult = (props:any) => {
     const userSelect = playMap!.get('userSelect');
     const comSelect = playMap!.get('comSelect');
 
-    let setComResult = props.setComResult;
-
-    console.log(`${JSON.stringify(userSelect)} + ${JSON.stringify(comSelect)}`)
+    let {title, setComResult} = props;
+    let comResult : string = ''
 
     if(userSelect && comSelect){
-        setComResult(judgement(comSelect, userSelect)!);
+        const CResult : string = judgement(comSelect, userSelect)!;
+        comResult = setComResult(CResult);
+        playMap.set('comResult', comResult);
     }
 
-    return props.comResult;
+    return (
+        <Box title={title} item={comSelect} result={comResult} />
+    );
 }

@@ -2,7 +2,7 @@ import { rcp } from "../aggregation/choice";
 import User from "./User";
 import React, { useEffect, useRef, useState }  from "react";
 import PlayMap from "../store/PlayMap";
-import  { GetComResult } from "./computer";
+import  Computer, { GetComResult } from "./computer";
 
 export const Play =(props:any) =>{
 
@@ -14,12 +14,12 @@ export const Play =(props:any) =>{
         let userData = user.setUserSelect(str);
         console.log(`setUserSelect ${JSON.stringify(userData)}`);
         setGameCount(gameCount +1 );
-        console.log(`gameCount : ${gameCount}`);
+        console.log(`setGameCount : ${gameCount}`);
     }
 
     const getResult = (props:any) => {
         user.setUserResult(); //맵에서 컴퓨터의 저장결과를 가져와서 유저와 비교하고, 승부를 리턴한다.
-        GetComResult(props); //맵에서 유저와 컴퓨터의 저장결과를 둘다 가져와 비교하고, 승부를 리턴한다.
+        playMap.get('comResult'); //맵에서 유저와 컴퓨터의 저장결과를 둘다 가져와 비교하고, 승부를 리턴한다.
         playMap.clear;
     }
 
