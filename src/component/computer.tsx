@@ -20,11 +20,6 @@ function Computer (props:any){
         return  comRcp;
     };
 
-    useEffect(() => { //처음 컴퓨터가 마운팅 될 때 마음에 결과값 하나를 품는다.
-        setComSelect(randomChoice()),
-        playMap!.set('comSelect', comSelect);
-    }, []);
-
     useEffect(() => { //한 판이 끝나면 컴퓨터가 새로운 가위바위보를 마음에 품고, 새로운 컴퓨터의 선택을 저장한다.
         setComSelect(randomChoice()),
         playMap!.set('comSelect', comSelect);
@@ -47,8 +42,12 @@ export const GetComResult = (props:any) => {
     const userSelect = playMap!.get('userSelect');
     const comSelect = playMap!.get('comSelect');
 
+    let setComResult = props.setComResult;
+
+    console.log(`${JSON.stringify(userSelect)} + ${JSON.stringify(comSelect)}`)
+
     if(userSelect && comSelect){
-        props.setComResult(judgement(comSelect, userSelect)!);
+        setComResult(judgement(comSelect, userSelect)!);
     }
 
     return props.comResult;

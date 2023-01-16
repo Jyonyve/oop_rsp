@@ -1,4 +1,4 @@
-import React , {useRef} from "react";
+import React , { useState} from "react";
 import "./App.css";
 import Computer from "./component/computer";
 import User from "./component/User";
@@ -13,14 +13,13 @@ import User from "./component/User";
 
 export const App = () => {
  
-  let gameCount0 = useRef(0);
-  let gameCount = gameCount0.current;
+  const [gameCount, setGameCount] = useState(0);
 
-    return (
+  return (
     <div>
       <div className="main">
-        <User gameCount = {gameCount}/>
-        <Computer gameCount={gameCount}/>
+        <User gameCount = {gameCount} setGameCount = {setGameCount}/>
+        <Computer gameCount = {gameCount} setGameCount = {setGameCount}/>
       </div>
     </div>
   );

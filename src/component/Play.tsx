@@ -7,12 +7,14 @@ import  { GetComResult } from "./computer";
 export const Play =(props:any) =>{
 
     const user : User = new User(props);
-    const playMap : Map<string,{}>|null = PlayMap.getPlayMap()!;
-    let gameCount = props.gameCount
+    const playMap : Map<string,{}> = PlayMap.getPlayMap()!;
+    let {gameCount, setGameCount} = props;
     
     const play = (str : rcp) => { //유저가 가위 바위 보 중 하나를 고르고, 이를 메모리에 저장한다. (컴퓨터는 게임 시작할 때 이미 골랐음.)
-        user.setUserSelect(str);
-        gameCount++;
+        let userData = user.setUserSelect(str);
+        console.log(`setUserSelect ${JSON.stringify(userData)}`);
+        setGameCount(gameCount +1 );
+        console.log(`gameCount : ${gameCount}`);
     }
 
     const getResult = (props:any) => {
@@ -21,8 +23,11 @@ export const Play =(props:any) =>{
         playMap.clear;
     }
 
-    useEffect(()=>{
-        getResult(props);
+    useEffect(()=>{ 
+        console.log(`useEffect : ${gameCount}`);
+        if( gameCount !== 0){
+           getResult(props); 
+        }
     },[gameCount]);
 
 

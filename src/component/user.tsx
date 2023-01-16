@@ -61,7 +61,7 @@ class User extends Component<any, any>{
     render(){
         return(
             <><Box title={this.title} item={this.userSelect} result={this.userResult} />
-            <Play /> 
+            <Play gameCount = {this.props.gameCount} setGameCount = {this.props.setGameCount}/> 
             </>
             );
     }
