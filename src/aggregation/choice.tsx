@@ -1,5 +1,4 @@
 import React from "react";
-import User from "../component/User";
 
 export enum rcp {
     rock,
@@ -31,6 +30,7 @@ export const choice = (props:rcp) => {
             rcp_value['img'] =  'https://www.collinsdictionary.com/images/full/paper_111691001.jpg';
             break;
         default : 
+            console.log(rcp_choice);
             throw new Error('가위바위보 값이 없습니다!!');
     }
 

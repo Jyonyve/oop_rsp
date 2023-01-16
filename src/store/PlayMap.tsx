@@ -1,20 +1,16 @@
 export default class PlayMap {
-    static myInstance : PlayMap;
-    data : Map<string,string>;
+    static myInstance :  Map<string,{}>|null = null;
 
     private constructor(){
-        this.data = new Map();
+        PlayMap.myInstance = new Map();
     }
     
-    static getInstance(){
+    static getPlayMap(){
         if(PlayMap.myInstance === null){
-            this.myInstance = new PlayMap();
+            PlayMap.myInstance = new Map();
         }
         return this.myInstance;
     }
 
-    getData(){
-        return this.data;
-    }
 
 }
