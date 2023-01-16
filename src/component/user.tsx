@@ -1,4 +1,4 @@
-import { makeObservable, action, computed, observable } from "mobx";
+import { makeObservable, action, computed, observable, runInAction } from "mobx";
 import React, { Component } from "react";
 import Choice, { choice, rcp } from "../aggregation/choice";
 import PlayMap from "../store/PlayMap";
@@ -6,20 +6,24 @@ import Box from "./Box";
 import judgement from "./judgement";
 import { Play } from "./Play";
 
-class User extends Component<any, any>{
+class User extends Component<any>{
 
     constructor(props:any){
         super(props);
-        makeObservable(this);
+        makeObservable(this ,{
+            _userSelect: observable,
+            _userResult: observable,
+            userSelect: computed,
+            userResult :computed,
+            setUserSelect : action,
+            setUserResult :action
+        });
     }
 
-    @observable
     _title : string = 'User';
     
-    @observable
     _userSelect : {[key : string] : Choice} = {};
 
-    @observable
     _userResult : string = "";
 
     playMap = PlayMap.getPlayMap();
@@ -28,42 +32,44 @@ class User extends Component<any, any>{
         return this._title;
     }
 
-    @computed
+    
     get userSelect(){
         return this._userSelect;
     }
 
-    @computed
     get userResult(){
         return this._userResult;
     }
 
-    @action
-    setUserSelect = (str :rcp) => {
+    setUserSelect (str :rcp) {
         let {rcp_choice, rcp_value} = choice(str)
         
-        this._userSelect =  
+        runInAction( () => this._userSelect =  
         { ...this._userSelect,
             [rcp_choice]: rcp_value
-        };
+        });
 
         this.playMap!.set('userSelect', this.userSelect);
+        console.log(`getUserSelected ${JSON.stringify(this.playMap!.get('userSelect'))}`)
         return this.playMap!.get('userSelect');
     }
 
-    @action
-    setUserResult = () => {
-        const comSelect = this.playMap!.get('comSelect')
-        this._userResult = judgement(this.userSelect, comSelect)!;
+    setUserResult() {
+        const comSelect = this.playMap!.get('comSelect');
+        const userSelect = this.playMap!.get('userSelect');
+        const judge : string = judgement(userSelect, comSelect)!;
+        console.log(`user result : ${judge}`);
+        runInAction ( () => this._userResult = judge);
         return this.userResult;
     }
 
     render(){
         return(
-            <><Box title={this.title} item={this.userSelect} result={this.userResult} />
-            <Play gameCount = {this.props.gameCount} setGameCount = {this.props.setGameCount}/> 
+            <>
+            <Box title={this.title} item={this.userSelect} result={this.userResult} />
+            <Play gameCount = {this.props.gameCount} setGameCount = {this.props.setGameCount} /> 
             </>
-            );
+        );
     }
 
 };

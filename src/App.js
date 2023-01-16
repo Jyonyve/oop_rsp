@@ -1,6 +1,6 @@
 import React , { useState} from "react";
 import "./App.css";
-import Computer from "./component/computer";
+import Computer from "./component/Computer";
 import User from "./component/User";
 
 // 1. 박스 2개 (타이틀,사진, 결과)

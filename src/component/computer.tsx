@@ -1,7 +1,7 @@
 import Box from "./Box";
 import judgement from "./judgement";
 import React, {useEffect, useState} from "react";
-import PlayMap from "../store//PlayMap";
+import PlayMap from "../store/PlayMap";
 import { choice, rcp } from "../aggregation/choice";
 
 
@@ -20,7 +20,7 @@ function Computer (props:any){
         return  comRcp;
     };
 
-    useEffect(() => { //한 판이 끝나면 컴퓨터가 새로운 가위바위보를 마음에 품고, 새로운 컴퓨터의 선택을 저장한다.
+    useEffect(() => { //한 판이 끝나면 컴퓨터가 새로운 가위바위보를 마음에 품고, 그 선택을 저장한다.
         let comRcp = randomChoice();
         let insertCom : {} = {};
         insertCom = {
@@ -58,6 +58,7 @@ export const GetComResult = (props:any) => {
 
     if(userSelect && comSelect){
         const CResult : string = judgement(comSelect, userSelect)!;
+        console.log(`computer result : ${CResult}`)
         comResult = setComResult(CResult);
         playMap.set('comResult', comResult);
     }
