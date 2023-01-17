@@ -1,7 +1,7 @@
 import React , { useState} from "react";
 import "./App.css";
-import Computer from "./component/Computer";
 import User from "./component/User";
+import Computer from "./component/Computer";
 
 // 1. 박스 2개 (타이틀,사진, 결과)
 //2. 가위 바위 보 버튼이 있다
@@ -14,12 +14,21 @@ import User from "./component/User";
 export const App = () => {
  
   const [gameCount, setGameCount] = useState(0);
+  const [dataInMap, setDataInMap] = useState(false);
 
   return (
     <div>
       <div className="main">
-        <User gameCount = {gameCount} setGameCount = {setGameCount}/>
-        <Computer gameCount = {gameCount} setGameCount = {setGameCount}/>
+        <User gameCount = {gameCount}
+        setGameCount = {setGameCount}
+        dataInMap = {dataInMap}
+        setDataInMap = {setDataInMap}
+        />
+        <Computer gameCount = {gameCount}
+        setGameCount = {setGameCount}
+        dataInMap = {dataInMap}
+        setDataInMap = {setDataInMap}
+        />
       </div>
     </div>
   );

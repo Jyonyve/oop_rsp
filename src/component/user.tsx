@@ -2,7 +2,7 @@ import { makeObservable, action, computed, observable, runInAction } from "mobx"
 import React, { Component } from "react";
 import Choice, { choice, rcp } from "../aggregation/choice";
 import PlayMap from "../store/PlayMap";
-import Box from "./Box";
+import Box from "../view/Box";
 import judgement from "./judgement";
 import { Play } from "./Play";
 
@@ -15,8 +15,8 @@ class User extends Component<any>{
             _userResult: observable,
             userSelect: computed,
             userResult :computed,
-            setUserSelect : action,
-            setUserResult :action
+            setUserSelect : action.bound,
+            setUserResult :action.bound
         });
     }
 
@@ -32,7 +32,6 @@ class User extends Component<any>{
         return this._title;
     }
 
-    
     get userSelect(){
         return this._userSelect;
     }
@@ -44,30 +43,40 @@ class User extends Component<any>{
     setUserSelect (str :rcp) {
         let {rcp_choice, rcp_value} = choice(str)
         
-        runInAction( () => this._userSelect =  
-        { ...this._userSelect,
+        this._userSelect =  
+        { 
             [rcp_choice]: rcp_value
-        });
-
+        };
+    console.log(`5: user - userSelect to Map`)
         this.playMap!.set('userSelect', this.userSelect);
-        console.log(`getUserSelected ${JSON.stringify(this.playMap!.get('userSelect'))}`)
-        return this.playMap!.get('userSelect');
+    console.log(`6: Data - DataInMap to true(ready to get result)`)
+        this.props.setDataInMap(true);
     }
 
     setUserResult() {
-        const comSelect = this.playMap!.get('comSelect');
-        const userSelect = this.playMap!.get('userSelect');
-        const judge : string = judgement(userSelect, comSelect)!;
-        console.log(`user result : ${judge}`);
-        runInAction ( () => this._userResult = judge);
-        return this.userResult;
-    }
+        console.log(`7: Data - setUserResult`);
+        if (this.props.dataInMap == true ) {
+            const userSelect = this.userSelect;
+            const comSelect = this.playMap!.get('comSelect');
+
+            console.log(`DataInMap == true, this judgement is for user`);
+            const judge : string = judgement(userSelect, comSelect)!;
+            this._userResult = judge;
+            console.log(`user result = ${this._userResult}`);
+        };
+    };
 
     render(){
         return(
             <>
-            <Box title={this.title} item={this.userSelect} result={this.userResult} />
-            <Play gameCount = {this.props.gameCount} setGameCount = {this.props.setGameCount} /> 
+            <Play 
+            {...this.props}
+            title={this._title}
+            item={this.userSelect}
+            result={this._userResult}
+            setUserSelect = {this.setUserSelect.bind(this)}
+            setUserResult = {this.setUserResult.bind(this)}
+            /> 
             </>
         );
     }
