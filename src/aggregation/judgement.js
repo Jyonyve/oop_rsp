@@ -1,4 +1,4 @@
-import { rcp } from "../aggregation/choice";
+import { rcp } from "./choice";
 
 const judgement = (master, slave) => {
   //승패의 결과 반환하는 조건문 =>

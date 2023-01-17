@@ -2,8 +2,7 @@ import { makeObservable, action, computed, observable, runInAction } from "mobx"
 import React, { Component } from "react";
 import Choice, { choice, rcp } from "../aggregation/choice";
 import PlayMap from "../store/PlayMap";
-import Box from "../view/Box";
-import judgement from "./judgement";
+import judgement from "../aggregation/judgement";
 import { Play } from "./Play";
 
 class User extends Component<any>{

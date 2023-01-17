@@ -1,7 +1,6 @@
 import { rcp } from "../aggregation/choice";
 import React, { useEffect, useRef, useState }  from "react";
-import PlayMap from "../store/PlayMap";
-import { action, runInAction } from "mobx";
+import { runInAction } from "mobx";
 import Box from "../view/Box";
 
 export const Play =(props:any) =>{

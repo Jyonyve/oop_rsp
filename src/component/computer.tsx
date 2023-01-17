@@ -1,5 +1,5 @@
 import Box from "../view/Box";
-import judgement from "./judgement";
+import judgement from "../aggregation/judgement";
 import React, {useEffect, useRef, useState} from "react";
 import PlayMap from "../store/PlayMap";
 import { choice, rcp } from "../aggregation/choice";
