@@ -3,11 +3,12 @@ import judgement from "./judgement";
 import React, {useEffect, useRef, useState} from "react";
 import PlayMap from "../store/PlayMap";
 import { choice, rcp } from "../aggregation/choice";
-import { toJS } from "mobx";
 
 
 function Computer (props:any){
     const playMap = PlayMap.getPlayMap()!;
+
+    const {gameCount, dataInMap} = props;
 
     const title : string = 'Computer';
     const [comSelect, setComSelect] = useState({});
@@ -26,37 +27,20 @@ function Computer (props:any){
         return  comRcp;
     };
 
-    useEffect(() => { //한 판이 끝나면 컴퓨터가 새로운 가위바위보를 마음에 품고, 그 선택을 맵에 저장한다.
-    if(props.gameCount > 0) {
+    useEffect(() => { //한 판이 끝나면(게임 카운트가 변경되면) 컴퓨터가 새로운 가위바위보를 마음에 품고, 그 선택을 맵에 저장한다.
+    if(gameCount > 0) {
     console.log(`1: com - random choice`)
         let comRcp = randomChoice();
-        let insertCom : {} = {};
-        insertCom = {[comRcp.rcp_choice] : comRcp.rcp_value};
+        let insertCom : {} = {[comRcp.rcp_choice] : comRcp.rcp_value};
     console.log(`2: com -  comSelect to Map`)             
         playMap!.set('comSelect', insertCom);
     console.log(`3: com -  setComSelect`)
         setComSelect(insertCom);
     }
-    }, [props.gameCount] );
+    }, [gameCount] );
 
 
-    return(
-        <>
-        <div>
-            <GetComResult {...props} comShowValue = {comShowValue.current} setComResult = {setComResult} comResult={comResult} title={title}  />
-        </div>
-        </>
-    );
-};
-export default Computer;
-
-
-export const GetComResult = (props:any) => {
-    const playMap = PlayMap.getPlayMap()!;
-
-    const {title, comShowValue, comResult, setComResult, dataInMap} = props;
-
-    useEffect( () => {
+    useEffect( () => { //양쪽이 뭘 냈는지 저장하는 맵에 데이터 2개가 다 들어오면, 컴퓨터의 승부를 판단하여 state에 올리고 맵을 비운다.
         if(dataInMap == true){
             console.log(`DataInMap == true, this judgement is for computer`)
             const CResult : string = judgement(playMap.get('comSelect'), playMap.get('userSelect'))!;
@@ -67,14 +51,15 @@ export const GetComResult = (props:any) => {
     console.log(`9: Data - set DataInMap to false`)
             props.setDataInMap(false);
         }    
-    }, [dataInMap])
-    
+    }, [dataInMap]);
 
-    return (
-        <Box
-            title={title} 
-            item={comShowValue} 
-            result={comResult} 
-        />
+
+    return(
+        <>
+        <div>
+            <Box title={title} item={comShowValue.current} result={comResult} />
+        </div>
+        </>
     );
-}
+};
+export default Computer;

@@ -12,8 +12,11 @@ import Computer from "./component/Computer";
 
 
 export const App = () => {
- 
-  const [gameCount, setGameCount] = useState(0);
+  
+  //모든 컴포넌트가 공유할 정보로, 게임이 몇 판 일어났는지(play를 몇 번 눌렀는지)와
+  //두 명 다 결과를 제출했는지(가위 바위 보를 냈는지)를 알려주는 state를 props에 담아 보냄.
+  
+  const [gameCount, setGameCount] = useState(0); 
   const [dataInMap, setDataInMap] = useState(false);
 
   return (
