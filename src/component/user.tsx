@@ -9,7 +9,7 @@ class User extends Component<any>{
 
     constructor(props:any){
         super(props);
-        makeObservable(this ,{ //변수 위에 데코레이터를 써도 되지만, 이번엔 생성자에서 변수들에게 속성을 줘봄(mobx 문법)
+        makeObservable(this ,{ //변수 위에 데코레이터를 써도 되지만, 이번엔 생성자에서 변수들에게 속성을 줘봄(mobx 문법, 바닐라 리액트는 state{ 변수: 초기화, 변수, 초기화} 로 state 선언.)
             _userSelect: observable, //observable: 이 데이터가 변하는 것을 관찰하겠다 -> state화
             _userResult: observable,
             userSelect: computed,
@@ -73,7 +73,7 @@ class User extends Component<any>{
             title={this._title}
             item={this.userSelect}
             result={this._userResult}
-            setUserSelect = {this.setUserSelect.bind(this)}
+            setUserSelect = {this.setUserSelect.bind(this)} //@autobind를 썼더니 플러그인 충돌이 나서 직접 bind 처리함...
             setUserResult = {this.setUserResult.bind(this)}
             /> 
             </>
