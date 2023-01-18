@@ -21,7 +21,7 @@ export default class PlayMap {
     }
 
     static getMapState(){ //맵에 데이터가 2개 이상일 때, true를 반환
-        if (this.myInstance && this.myInstance.size > PlayMap.gameMember){
+        if (this.myInstance && this.myInstance.size >= PlayMap.gameMember){
             return true;
         } 
         return false;
