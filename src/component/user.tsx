@@ -51,6 +51,10 @@ class User extends Component<any>{
     console.log(`6: Data - DataInMap to true(ready to get result)`)
         this.props.setDataInMap(true); //컴퓨터가 항상 미리 본인 값을 골라두므로, 유저가 값을 고르면 맵에 두 데이터가 다 들어온다. dataInMap을 true로 변경
     }
+        /*  심화퀴즈 : dataInMap state에 따라 동작하는 함수는 userResult와 comResult가 있는데, 그럼 둘이 경쟁하듯 랜덤하게 실행되나요?
+            => 컴포넌트 렌더링 순서에 따라 결정됩니다. dataInMap은 App.js에 선언된 state인데, 그럼 App부터 다시 렌더링하지 않을까요?
+            코드를 만져봅시다 : => App.js의 리턴에서 User와 Computer의 순서를 바꾸면 어떻게 될까?
+        */
 
     setUserResult() { //맵에 컴퓨터와 유저 둘의 데이터가 다 들어와 있을 때, 유저의 승부를 userResult에 담는다.
         console.log(`7: Data - setUserResult`);
